@@ -1,0 +1,109 @@
+---------------------- Bogdan - Andrei Buga, grupa 312CB ----------------------
+------------------------------ Metode Numerice --------------------------------
+------------------ Tema 1: Clustering. Algoritmul K-Means ---------------------
+
+
+
+---- Task1: read_input_data(file_params, file_points) ----
+
+1) Citim NC (numarul de clustere) din file_params.
+
+2) Citim matricea aux din file_points; aceasta contine 0 pe coloana 1 si 
+coordonatele x,y,z ale punctelor pe care vrem sa le citim pe coloanele 2,
+3, respectiv 4. Datele for fi citite de pe linia 6, coloana 1, a textului
+din fisierul dat.
+
+3) Valoarea points returnata de functie este alcatuita din ultimele 3 coloane
+ale matricei aux.
+
+
+
+---- Task2: clustering_pc(P, nc) ----
+
+* P = matricea punctelor
+* nc = numarul de centroizi
+
+1) Generam o matrice de centroizi initiali (C1) cu linii preluate in mod
+aleatoriu din maticea P.
+
+2) Initializam o variabila de tip semafor sem = 1.
+(sem = 1, daca pozitiile centroizilor s-au modificat; sem = 0, in caz contrar)
+
+3) Cat timp poziitile centroizilor se modifica,
+	i) Presupunem ca nu s-a efectuat nicio schimbare de coordonate a 
+	centroizilor.
+	
+	ii) In maticea D, retinem in D(i,j) distanta de la punctul #i la centroidul
+	#j. (i de la 1 la numarul de puncte, j de la 1 la numarul de centroizi)
+	
+	iii) In matricea A, retinem centroidul de care este mai apropiat punctul 
+	#i. (i de la 1 la numarul de puncte)
+	
+	iv) In matricea nr_elem, retinem cate elemente din maticea A au valoarea i.
+	(i de la 1 la numarul de puncte)
+	
+	v) In maticea C2, calculam noile coordonate ale centroizilor.
+	
+	vi) Daca C2 difera de C1, repetam pasii i)-v), plecand de la centroizii 
+	rezultati. In caz contrar, se va iesi din bucla "while".
+	
+4) Valoarea returnata va fi matricea C2 pentru care se iese din bucla.
+
+---- Task3: view_clusters(P, C) ----
+
+* P = matricea punctelor
+* C = matricea centroizilor
+
+1) Calculam matricele D si A de la Task2.3.ii si Task2.3.iii.
+
+2) Punctele din coordonatele in P vor fi reprezentate grafic astfel: 
+	- Clusterul 1 -> albastru
+	- Clusterul 2 -> mov
+	- Clusterul 3 -> portocaliu
+	- Clusterul 4 -> verde
+	(am presupus ca avem maxim 4 clustere)
+	
+---- Task4: compute_cost_pc(P, C) ----
+
+* P = matricea punctelor
+* C = matricea centroizilor
+
+1) Initializam costul pe care vrem sa il returnam cu 0.
+
+2) Calculam matricea D de la Task2.3.ii.
+
+3) Dupa calcularea distantei minime dintre un punct din P si un centroid
+din C, adunam acea distanta la cost.
+
+---- Task5: view_cost_pc(file_points) ----
+
+1) Citim matricea de puncte P la fel ca la Task1.(2-3).
+
+2) Declaram o matrice A din R la puterea 10*2, pentru care A(i,j) =
+	- i, j = 1 (i = numarul de centroizi)
+	- 0, j = 2
+	
+3) Pentru i de la 1 la 10:
+	i) Generam i clustere si i centroizi pentru matricea P.
+	
+	ii) Calculam costul corespunzator punctelor din P si centroizilor din C;
+	
+	iii) A(i,2) = costul determinat la pasul anterior.
+	
+4) Se reprezinta grafic functia f(A(:,1)) = A(:,2). (cost = f(i), unde i =
+numarul de centroizi)
+
+Probleme cunoscute:
+
+* Testarea programelor a trebuit sa o efectuez pe un alt laptop, deoarece pe
+varianta mea de Octave nu imi este recunoscuta functia "num2str".
+
+* La citirea datelor de intrare pentru matricea de puncte, mi s-au retinut,
+pe o linie, valorile [0 x(p) y(p) z(p)], cand faceam citirea cu "dlmread", iar 
+cand o faceam cu "load", la dimensiuni prea mari, imi retinea toate valorile.
+intr-o stuctura de dimensiuni 1x1. Ca sa raman cu toate valorile necesare,
+am folosit functia "load("-ascii", fisier_input)". 
+
+* Trebuie evidentiat faptul ca, la Task5, enuntul spune sa prelucram fisierul
+"view_cost_pc.m", dar checker-ul verifica pe fisierul "view_cost_vs_nc.m".
+Am citit pe forum cum sa rezolv aceasta problema.
